@@ -1,0 +1,42 @@
+To install this run the setup.py script as root:
+
+chmod +x setup.py
+./setup.py install
+
+It will place the main fluxStyle executable in /usr/bin 
+It will also make a dir in /usr/share/fluxstyle-1.0 for all the 
+files that fluxStyle uses. fluxStyle depends on libglade, and pygtk 2.4 or newer
+2.6+ is reccomended. 
+
+fluxStyle looks only in the users ~/.fluxbox/styles folder for
+styles by default, to change the locations fluxstyle looks edit the config file
+that it makes called ".fluxStyle.rc" located in the users $HOME dir.
+
+
+A 'preview.jpg' in the ~/.fluxbox/styles/yourStyle/preview.jpg is required or you will
+get the default 'none' showing that informs you what to do to get a preview.  Several
+style makers are creating compliant styles. http://tenr.de/ is one. 
+
+I have the package with preview images up for
+download at: http://errr-online.com/fluxbox/ 
+
+If you have any problems using this app please feel free to let me know how I can make
+it eaiser to use. email: errr(at)errr-online(dot)com 
+or see me in IRC on chat.freenode.net in #fluxbox. Removal
+of this app is not exactly simple as root: 
+
+  rm -rf /usr/share/fluxstyle-1.0
+  rm -rf /usr/bin/fluxStyle
+  rm -rf /usr/lib/python(your version)/site-packages/fluxstyle/
+
+and it will be gone.
+###################################################################
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Common problems after install
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+###################################################################
+
+Sometimes people have said they have premission problems after installing
+this is because of your umask. To solve the problem make sure all the
+file installed by fluxstyle are worl readable: chmod a+r 
+Next the fluxStyle binary in /usr/bin will need to be: chmod a+rx 

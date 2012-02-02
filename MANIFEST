@@ -1,0 +1,13 @@
+setup.py
+fluxStyle
+images/fluxmetal.png
+images/mini-fluxbox6.png
+images/none.jpg
+images/main.glade
+docs/README
+docs/LICENSE
+docs/Changelog
+fluxstyle/__init__.py
+fluxstyle/errorMessage.py
+fluxstyle/findStyles.py
+fluxstyle/parseConfig.py

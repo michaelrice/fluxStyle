@@ -1,0 +1,258 @@
+#!/usr/bin/env python
+# Copyright 2005,2006 Michael Rice
+# errr@errr-online.com
+# vim: noexpandtab:ts=4:sts=4
+
+""" fluxStyle
+
+fluxStyle is a graphical style-manager for the fluxbox
+window manager. Orignal version written by Michael Rice.
+Many special thanks to Zan a.k.a. Lauri Peltonen for GUI 
+Improvements & Bug Stomping. 
+
+Released under GPL v2.
+
+TODO 
+- somehow support older styles and not put folders in the list 
+  like folders that dont have anything to do with a style.
+- fix any bugs that may still be there and unseen..
+- add tray icon support (this is started will be done soon)
+"""
+import sys
+import os
+import gtk
+import gtk.glade
+from fluxstyle import findStyles,parseConfig
+from os.path import isfile,expanduser,isdir
+from fluxstyle import errorMessage
+
+#GLADEFILE="/usr/share/fluxstyle/glade/main.glade"
+#N_IMAGE="/usr/share/fluxstyle/images/none.jpg"
+GLADEFILE="./glade/main.glade"
+N_IMAGE="./images/none.jpg"
+
+class StyleChange:
+    """Class wrapper for changing styles in fluxbox"""
+    location = ""
+    def main(self):
+        gtk.main()
+    
+    def __init__(self):
+        """The main fluxStyle window will show"""
+        global location
+        windowname = "window1"
+        self.wTree = gtk.glade.XML (GLADEFILE,windowname)
+        self.treeview1 = self.wTree.get_widget("treeview1")
+        self.view_menu = self.wTree.get_widget("view1_menu")
+        self.__fill_view_menu__(self.view_menu)
+        
+        handler = {"on_apply_style_clicked":self.__apply_style_clicked__,
+                   "on_quit_clicked":(gtk.main_quit),
+                   "on_add_style_clicked":self.__add_style_clicked__,
+                   "on_remove_style_clicked":self.__remove_style_clicked__,
+                   "on_quit1_activate":(gtk.main_quit),
+                   "on_about1_activate":self.__about1_activate__,
+                   "on_window1_destroy":(gtk.main_quit),
+                   "on_default1_activate":self.__fill_combolist__}
+        
+        self.wTree.signal_autoconnect (handler)
+
+        #Preparing the treeview here
+        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str)
+        self.treeview1.set_model(self.liststore)
+
+        renderer = gtk.CellRendererText()
+        imagerenderer = gtk.CellRendererPixbuf()
+        imagerenderer.set_property('ypad', 10)
+        imagerenderer.set_property('xpad', 5)
+        column1 = gtk.TreeViewColumn("Preview", imagerenderer, pixbuf=0)
+        column1.set_resizable(True)
+        column2 = gtk.TreeViewColumn("Name", renderer, text=1)
+        column2.set_resizable(True)
+        self.treeview1.append_column(column1)
+        self.treeview1.append_column(column2)
+
+        #Fill it (Clear + fill)
+        self.__fill_combolist__(self.treeview1,loc="default")
+        return
+    
+    # Call backs begin here 
+    # fill combo list    
+    def __fill_combolist__(self,widget,loc="default"):
+        """Fill the combo list with styles test to see if there is a ~/.fluxbox/styles
+        if there isnt then make it and move on instead of die."""
+        global location
+        location = expanduser(loc)
+        if location == "default":
+            location = expanduser("~/.fluxbox/styles")
+            try:
+                dir = os.listdir(location)
+                dir.sort()
+                self.liststore.clear()
+                for styles in dir:
+				    self.liststore.append((self.__get_preview__(styles), styles,))
+            except(OSError):
+                dir = expanduser("~/.fluxbox/styles")
+                os.makedirs(dir,mode=0700)
+                message = "You do not have a default style folder yet I have made it for you. "
+				message += "The list will remain empty until you install a style which "
+				message += "you can do by clicking the add button."
+		        errorMessage.infoMessage(message)
+        else:
+		    try:
+			    dir = os.listdir(location)
+				dir.sort()
+				self.liststore.clear()
+				for styles in dir:
+				    self.liststore.append((self.__get_preview__(styles), styles,))
+			except(OSError):
+			    m = "You have an invalid location in your ~/.fluxStyle.rc file. It is possible "
+				m += "that you have a syntax error. Please exit fluxStlye and fix the error in "
+				m += "this file and try again."
+				errorMessage.infoMessage(m)
+    # get the preview image for view
+    def __get_preview__(self, stylename):
+	    """Get the preview image from: location + /styleName/preview.jpg"""
+        global location
+        location = expanduser(location)
+        image = gtk.Image()
+        if os.path.isdir(location + "/" + stylename):
+            if isfile(location+"/"+stylename+"/preview.jpg"):
+                image.set_from_file(location+"/" +stylename+"/preview.jpg")
+            else:
+                image.set_from_file(N_IMAGE)
+        return image.get_pixbuf()
+    def __fill_view_menu__(self, widget):
+        v_menuNam = None
+        if parseConfig.check4_config() == 2:
+            message = "This looks like the first time you have started fluxStlye "
+			message += "a default config has been created for you. You should edit "
+			message += "this config to control the location of styles shown in the "
+			message += "preview window. The config file is located in ~/.fluxStyle.rc"
+            errorMessage.infoMessage(message)
+        
+        elif parseConfig.check4_config() == 3:
+            message = "You do not have the config file \"~/.fluxStyle.rc\" and you do "
+			message += "not have write access to the \"~/\" aka $HOME directory. If you "
+			message += "find this is not accurate information please report a bug to errr@"
+			message += "errr-online.com"
+            errorMessage.infoMessage(message)
+        elif parseConfig.check4_config() == True:
+            ops = parseConfig.parse_file(expanduser("~/.fluxStyle.rc"))
+			l = []
+            if ops != False:
+                count = 1
+                view = self.view_menu
+                for k,v in ops.iteritems():
+                    if k == "STYLES_DIRS":
+                        for x in v:
+						    l.append(x.strip().split(','))
+						for i in l:
+						    if len(i) <= 1:
+							    name = "_"+str(count)+" %s"%(" Extra Styles")
+								menuitem = gtk.MenuItem(name + str(count))
+								menuitem.connect("activate", self.__fill_combolist__,i[0])
+								view.add(menuitem)
+								count += 1
+							else:
+							    name = "_%s"%(i[0])
+								menuitem = gtk.MenuItem(name)
+								menuitem.connect("activate",self.__fill_combolist__,i[1])
+								view.add(menuitem)
+                    view.show_all()            
+    # Set style 
+    def __apply_style_clicked__(self,widget):
+        """Used to apply new styles"""
+        global location
+        style = self.__get_selected_style__()
+        if style:
+            findStyles.set_style(style,location)
+
+    # Add style
+    def __add_style_clicked__(self,widget):
+        """Install a new style, multiple styles can be installed at once."""
+        
+        dialog = gtk.FileChooserDialog("Choose file to install",
+                                        None,gtk.FILE_CHOOSER_ACTION_OPEN,
+                                        (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                                        gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+        dialog.set_default_response(gtk.RESPONSE_OK)
+        filter = gtk.FileFilter()
+        filter.set_name("Fluxbox Styles")
+        filter.add_mime_type("tar/gz")
+        filter.add_mime_type("tar/bz2")
+        filter.add_pattern("*.tar.gz")
+        filter.add_pattern("*.tar.bz2")
+        filter.add_pattern("*.tgz")
+        dialog.add_filter(filter)
+        dialog.set_select_multiple(True)
+
+        response = dialog.run()
+        if response == gtk.RESPONSE_OK:
+            findStyles.install_style(dialog.get_filenames())
+            self.__fill_combolist__(self)
+            dialog.destroy()
+        if response == gtk.RESPONSE_CANCEL:
+            dialog.destroy()
+    
+    # remove style
+    def __remove_style_clicked__(self,widget):
+        """Remove selected style, currently only 1 style at a time is supported"""
+        global location
+        style = self.__get_selected_style__()
+        if style == False:
+            m = "You must select a style to remove first"
+            errorMessage.infoMessage(m)            
+        else:
+            message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, \
+                gtk.BUTTONS_NONE, "Are you sure you want to delete %s?"%(style))
+            message.add_button(gtk.STOCK_OK, gtk.RESPONSE_OK)
+            message.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CLOSE)
+            response = message.run()
+            message.hide()
+            if response == gtk.RESPONSE_OK:
+                if findStyles.remove_style(style,location) != False:
+                    message.destroy()
+                    self.__fill_combolist__(self,location)
+                else:
+                    say = "You do not have access to remove this style please contact "
+					say += "your system admin for help removing this style."
+                    message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, \
+						gtk.BUTTONS_NONE, say)
+                    message.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE)
+                    response = message.run()
+                    message.hide()
+                if response == gtk.RESPONSE_CLOSE:
+                    message.destroy()
+            if response == gtk.RESPONSE_CLOSE:
+                message.destroy()
+    def __get_selected_style__(self):
+        """Getting the selected style"""
+        selection = self.treeview1.get_selection()
+        (model, iter) = selection.get_selected()
+        if model and iter:
+            return model.get_value(iter, 1)
+        else:
+            return False
+	
+	def __close_about__(self,widget,event):
+	    """close about dialog"""
+		if event == gtk.RESPONSE_CANCEL:
+			self.aboutdialog.destroy()
+    
+    def __about1_activate__(self,widget):
+        """Activate the help button with the about dialog, use generic if pygtk < 2.5.9"""
+        if gtk.pygtk_version < (2,5,90):
+            message = "fluxStyle version 1.0 Updae your pygtk version for more features. Version "
+			message += "2.6.0 or newer is reccomended"
+            errorMessage.infoMessage(message)
+        else:
+            windowname2="aboutdialog1"
+			self.wTree2=gtk.glade.XML (GLADEFILE,windowname2)
+			handler = { "on_aboutdialog1_response":self.__close_about__}
+			self.wTree2.signal_autoconnect(handler)
+			self.aboutdialog = self.wTree2.get_widget("aboutdialog1")
+
+if __name__ == "__main__":
+    style = StyleChange()
+    style.main()

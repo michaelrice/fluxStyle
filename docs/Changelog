@@ -1,0 +1,248 @@
+(Format: Day.Month.Year)
+	Should have started this sooner cause I have nothing from
+	the start to Rev 39 :)
+12.12.2006 (errr)
+	*Fix about dialog close for new pygtk
+
+Changes for 1.2 (errr)
+	*Remove tkinter stuff
+	*move lib check into setup.py
+
+Changes for Revision 51 (errr)
+	*removed shebang from __init__.py
+	*remove fluxStyle.py from module dir
+	*make 1.0.1 release
+
+Changes for Revision 50 (errr)
+	*added TODO list
+
+Changes for Revision 49 (errr)
+	*added stuff to start work on the 
+	editor
+Changes for Revision 48 (errr)
+	*rename image
+	
+Changes for Revision 47 (errr)
+	*Moved LICENSE into the docs dir
+
+Changes for Revision 46 (errr)
+	09.04.2006
+	*Remove install.sh
+	*Add setup.py
+	*Change dir structure to refelect setup.py file
+	*Code review for offical 1.0 Release
+
+Changes for Revision 45 (errr)
+	*Add ability to give view menu items a custom name
+	*Cleaned up imports some, replaced a few erro messages with
+	  errorMessage.infoMessage()
+Changes for Revision 41 (errr)
+  12.12.2005
+  *Added function for errorMessages 
+		errorMessage.infoMessage(message) will return a gtk dialog with the message in it. good for "premission denied" etc
+  *cleaned up code some
+  *Added config file creator function
+
+Changes for Revision 39 (errr)
+	23.11.2005
+	*Added config file support file goes in ~/.fluxbox/fluxStyle.rc
+	*Added support for styles to be in any location in View menu on the 
+		menu bar Select the location. Default location is ~/.fluxbox/styles
+	*Added a filter to keep old styles out of the list
+
+------------------------------------------------------------------------
+r44 | errr | 2006-03-23 08:52:06 -0600 (Thu, 23 Mar 2006) | 1 line
+
+
+------------------------------------------------------------------------
+r43 | errr | 2005-12-12 17:08:37 -0600 (Mon, 12 Dec 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r42 | errr | 2005-12-12 17:06:41 -0600 (Mon, 12 Dec 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r41 | errr | 2005-12-12 16:21:02 -0600 (Mon, 12 Dec 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r40 | errr | 2005-11-23 20:57:53 -0600 (Wed, 23 Nov 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r39 | errr | 2005-11-23 20:57:17 -0600 (Wed, 23 Nov 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r38 | errr | 2005-10-22 03:15:31 -0500 (Sat, 22 Oct 2005) | 5 lines
+
+Added support for colors in the installer file, 
+as well as requiring that the install be some
+what forced unless it is an offical release.
+
+
+------------------------------------------------------------------------
+r37 | errr | 2005-10-21 22:18:30 -0500 (Fri, 21 Oct 2005) | 2 lines
+
+oopsy I messed up the findstyles...
+
+------------------------------------------------------------------------
+r36 | errr | 2005-10-21 21:58:37 -0500 (Fri, 21 Oct 2005) | 3 lines
+
+Fix bug for new installs of fluxbox where ~/.fluxbox/styles wasnt there
+now mkdir for it if its not there instead of die.
+
+------------------------------------------------------------------------
+r35 | errr | 2005-10-21 20:19:36 -0500 (Fri, 21 Oct 2005) | 3 lines
+
+update to the installer so people dont try to install
+while the files are setup to be run from the CWD
+
+------------------------------------------------------------------------
+r34 | errr | 2005-10-21 20:11:29 -0500 (Fri, 21 Oct 2005) | 2 lines
+
+Lots of changes.. I need a changelog I guess...
+
+------------------------------------------------------------------------
+r33 | errr | 2005-09-12 16:59:33 -0500 (Mon, 12 Sep 2005) | 5 lines
+
+Renamed all the buttons from button# to a descriptive name
+Added destroy to window for closing the window with the 'X' 
+button on window
+
+
+------------------------------------------------------------------------
+r32 | errr | 2005-09-10 12:48:56 -0500 (Sat, 10 Sep 2005) | 3 lines
+
+Added tgz to filter list for poorly
+named packages Thanks CyberTF
+
+------------------------------------------------------------------------
+r31 | errr | 2005-08-17 12:16:13 -0500 (Wed, 17 Aug 2005) | 2 lines
+
+Slight update to install script
+
+------------------------------------------------------------------------
+r30 | errr | 2005-07-12 10:53:39 -0500 (Tue, 12 Jul 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r29 | errr | 2005-07-12 10:30:31 -0500 (Tue, 12 Jul 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r28 | errr | 2005-07-12 10:27:00 -0500 (Tue, 12 Jul 2005) | 2 lines
+
+Added ability to install > 1 file at a time
+
+------------------------------------------------------------------------
+r27 | errr | 2005-06-28 11:44:26 -0500 (Tue, 28 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r26 | errr | 2005-06-28 11:21:02 -0500 (Tue, 28 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r25 | errr | 2005-06-28 11:14:28 -0500 (Tue, 28 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r24 | errr | 2005-06-28 11:04:43 -0500 (Tue, 28 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r23 | errr | 2005-06-27 12:14:24 -0500 (Mon, 27 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r22 | errr | 2005-06-25 03:19:23 -0500 (Sat, 25 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r21 | errr | 2005-06-25 03:16:44 -0500 (Sat, 25 Jun 2005) | 2 lines
+
+This is the commit for the 1.0-pre-release
+
+------------------------------------------------------------------------
+r20 | errr | 2005-06-18 03:53:34 -0500 (Sat, 18 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r19 | errr | 2005-06-18 01:36:50 -0500 (Sat, 18 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r18 | errr | 2005-06-18 01:36:08 -0500 (Sat, 18 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r17 | errr | 2005-06-18 01:30:09 -0500 (Sat, 18 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r16 | errr | 2005-06-17 16:54:00 -0500 (Fri, 17 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r15 | errr | 2005-06-17 16:52:41 -0500 (Fri, 17 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r14 | errr | 2005-06-17 16:14:32 -0500 (Fri, 17 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r13 | errr | 2005-06-01 15:01:13 -0500 (Wed, 01 Jun 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r12 | errr | 2005-05-30 20:12:54 -0500 (Mon, 30 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r11 | errr | 2005-05-27 23:48:58 -0500 (Fri, 27 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r10 | errr | 2005-05-27 15:26:19 -0500 (Fri, 27 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r9 | errr | 2005-05-27 14:31:55 -0500 (Fri, 27 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r8 | errr | 2005-05-27 05:14:18 -0500 (Fri, 27 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r7 | errr | 2005-05-27 05:09:36 -0500 (Fri, 27 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r6 | errr | 2005-05-27 04:12:30 -0500 (Fri, 27 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r5 | errr | 2005-05-27 00:34:44 -0500 (Fri, 27 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r4 | errr | 2005-05-27 00:32:09 -0500 (Fri, 27 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r3 | errr | 2005-05-23 17:17:18 -0500 (Mon, 23 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r2 | errr | 2005-05-23 10:01:56 -0500 (Mon, 23 May 2005) | 1 line
+
+
+------------------------------------------------------------------------
+r1 | errr | 2005-05-23 01:05:13 -0500 (Mon, 23 May 2005) | 1 line
+
+import comment
+------------------------------------------------------------------------
