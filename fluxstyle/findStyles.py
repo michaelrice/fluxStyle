@@ -40,7 +40,7 @@ def set_style(style,location):
     styleLine = re.compile(r"session.styleFile")
     for x in text:
         if styleLine.search(x):
-            oldStyleName = x 
+            oldStyleName = x
     output = stdout
     output =  open(expanduser("~/.fluxbox/init"),"w")
     for s in input.readlines():
@@ -80,12 +80,13 @@ def install_style(file):
                 ins_dir = expanduser("~/")
                 for i in tar:
                     tar.extract(i,ins_dir)
-            
+
         else:
-            # 2 == it wasnt even a tar file at all. This is a double check, we filter 
+            # 2 == it wasnt even a tar file at all. This is a double check, we filter
             #the file types in the file chooser to allow only tar.gz and tar.bz2
             return 2
     return
+
 def remove_style(file,location):
     """This can be used to remove a style"""
     if location == "default":
