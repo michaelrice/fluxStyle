@@ -1,9 +1,11 @@
 #!/usr/bin/env python
-"""Fluxstyle is a graphical style manager built in python using pygtk and glade.
-Fluxstyle is for the fluxbox window manager. Orignal version written by Michael Rice.
-Many special thanks to Zan a.k.a. Lauri Peltonen for GUI Improvements & Bug Stomping.
+"""Fluxstyle is a graphical style manager built in python
+using pygtk and glade. Fluxstyle is for the fluxbox window
+manager. Orignal version written by Michael Rice. Many special
+thanks to Zan a.k.a. Lauri Peltonen for GUI Improvements & Bug Stomping.
 
-Released under GPL"""
+Released under MIT
+"""
 from distutils.core import setup
 import distutils.fancy_getopt
 import sys
@@ -25,14 +27,10 @@ def chk_install():
         import gtk.glade
     except:
         print "You need to install libglade2"
-        print "http://ftp.gnome.org/pub/GNOME/sources/libglade/2.0/ "
-        print "or set your PYTHONPATH correctly. "
-        print "try: export PYTHONPATH=/usr/local/lib/python%s/site-packages/" % (ver)
-        print "or export: PYTHONPATH=/usr/lib/python%s/site-packages/" % (ver)
         raise SystemExit
     if gtk.pygtk_version < (2,3,90):
         print "PyGtk 2.3.90 or later required for this program"
-        print "It is reccomended that you get pygtk 2.6 or newer for best results."
+        print "It is reccomended that you get pygtk 2.6 or newer."
         raise SystemExit
 
 def main():
@@ -47,10 +45,15 @@ def main():
         packages=['fluxstyle'],
         data_files=[
           (DATADIR+'/fluxstyle/images',
-          ['images/fluxmetal.png','images/mini-fluxbox6.png','images/none.jpg']),
+            ['images/fluxmetal.png',
+              'images/mini-fluxbox6.png',
+              'images/none.jpg'
+            ]
+          ),
           (DATADIR+'/fluxstyle/glade',['images/main.glade']),
           (BINDIR,['fluxStyle']),
-          (DATADIR+'/fluxstyle/docs',['docs/README','docs/LICENSE','docs/Changelog'])
+          (DATADIR+'/fluxstyle/docs',
+              ['docs/README','docs/LICENSE','docs/Changelog'])
           ]
         )
 if __name__ == "__main__":
