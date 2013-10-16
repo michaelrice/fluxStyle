@@ -78,8 +78,8 @@ class StyleChange:
     # Call backs begin here
     # fill combo list
     def __fill_combolist__(self,widget,loc="default"):
-        """Fill the combo list with styles test to see if there is a ~/.fluxbox/styles
-        if there isnt then make it and move on instead of die."""
+        """Fill the combo list with styles test to see if there is a
+        ~/.fluxbox/styles if there isnt then make it and move on."""
         global location
         location = expanduser(loc)
         if location == "default":
@@ -89,13 +89,15 @@ class StyleChange:
                 dir.sort()
                 self.liststore.clear()
                 for styles in dir:
-                    self.liststore.append((self.__get_preview__(styles), styles,))
+                    self.liststore.append((self.__get_preview__(styles), 
+                        styles,))
             except(OSError):
                 dir = expanduser("~/.fluxbox/styles")
                 os.makedirs(dir,mode=0700)
-                message = "You do not have a default style folder yet I have made it for you. "
-                message += "The list will remain empty until you install a style which "
-                message += "you can do by clicking the add button."
+                message = """You did not have a default style folder. One has 
+                been created for you. The list will remain empty until you
+                install a style which you can do by clicking the add button.
+                """
                 errorMessage.infoMessage(message)
         else:
             try:
@@ -103,11 +105,13 @@ class StyleChange:
                 dir.sort()
                 self.liststore.clear()
                 for styles in dir:
-                    self.liststore.append((self.__get_preview__(styles), styles,))
+                    self.liststore.append((self.__get_preview__(styles), 
+                        styles,))
             except(OSError):
-                m = "You have an invalid location in your ~/.fluxStyle.rc file. It is possible "
-                m += "that you have a syntax error. Please exit fluxStlye and fix the error in "
-                m += "this file and try again."
+                m = """You have an invalid location in your ~/.fluxStyle.rc
+                file. It is possible that you have a syntax error. Please exit
+                fluxStlye and fix the error in this file and try again.
+                """
                 errorMessage.infoMessage(m)
 
     # get the preview image for view
@@ -126,18 +130,17 @@ class StyleChange:
     def __fill_view_menu__(self, widget):
         v_menuNam = None
         if parseConfig.check4_config() == 2:
-            message = "This looks like the first time you have started fluxStlye "
-            message += "a default config has been created for you. You should edit "
-            message += "this config to control the location of styles shown in the "
-            message += "preview window. The config file is located in ~/.fluxStyle.rc"
+            message = """First run detected. A default config has been created
+            for you. You should edit this config to control the location of
+            styles shown in the preview window. The config file is located in
+            ~/.fluxStyle.rc"""
             errorMessage.infoMessage(message)
 
         elif parseConfig.check4_config() == 3:
-            message = "You do not have the config file \"~/.fluxStyle.rc\" and you do "
-            message += "not have write access to the \"~/\" aka $HOME directory. If you "
-            message += "find this is not accurate information please report a bug to errr@"
-            message += "errr-online.com"
+            message = """You do not have the config file ~/.fluxStyle.rc and
+            you do not have write access to your $HOME directory.""" 
             errorMessage.infoMessage(message)
+        
         elif parseConfig.check4_config() == True:
             ops = parseConfig.parse_file(expanduser("~/.fluxStyle.rc"))
             l = []
@@ -152,13 +155,17 @@ class StyleChange:
                             if len(i) <= 1:
                                 name = "_"+str(count)+" %s"%(" Extra Styles")
                                 menuitem = gtk.MenuItem(name + str(count))
-                                menuitem.connect("activate", self.__fill_combolist__,i[0])
+                                menuitem.connect("activate", 
+                                        self.__fill_combolist__,
+                                        i[0])
                                 view.add(menuitem)
                                 count += 1
                             else:
                                 name = "_%s"%(i[0])
                                 menuitem = gtk.MenuItem(name)
-                                menuitem.connect("activate",self.__fill_combolist__,i[1])
+                                menuitem.connect("activate",
+                                        self.__fill_combolist__,
+                                        i[1])
                                 view.add(menuitem)
                                 view.show_all()
     # Set style
@@ -176,8 +183,8 @@ class StyleChange:
         dialog = gtk.FileChooserDialog("Choose file to install",
                 None,gtk.FILE_CHOOSER_ACTION_OPEN,
                 (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                    gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-                dialog.set_default_response(gtk.RESPONSE_OK)
+                gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+        dialog.set_default_response(gtk.RESPONSE_OK)
         filter = gtk.FileFilter()
         filter.set_name("Fluxbox Styles")
         filter.add_mime_type("tar/gz")
@@ -198,15 +205,18 @@ class StyleChange:
 
     # remove style
     def __remove_style_clicked__(self,widget):
-        """Remove selected style, currently only 1 style at a time is supported"""
+        """Remove selected style"""
         global location
         style = self.__get_selected_style__()
         if style == False:
             m = "You must select a style to remove first"
             errorMessage.infoMessage(m)
         else:
-            message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, \
-                    gtk.BUTTONS_NONE, "Are you sure you want to delete %s?"%(style))
+            message = gtk.MessageDialog(None, 
+                    gtk.DIALOG_MODAL, 
+                    gtk.MESSAGE_INFO,
+                    gtk.BUTTONS_NONE, 
+                    "Are you sure you want to delete {0}?".format(style))
             message.add_button(gtk.STOCK_OK, gtk.RESPONSE_OK)
             message.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CLOSE)
             response = message.run()
@@ -216,10 +226,14 @@ class StyleChange:
                     message.destroy()
                     self.__fill_combolist__(self,location)
                 else:
-                    say = "You do not have access to remove this style please contact "
-                    say += "your system admin for help removing this style."
-                    message = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, \
-                            gtk.BUTTONS_NONE, say)
+                    say = """You do not have access to remove this style Please
+                    contact your system admin for help removing this style.
+                    """
+                    message = gtk.MessageDialog(None,
+                            gtk.DIALOG_MODAL,
+                            gtk.MESSAGE_INFO,
+                            gtk.BUTTONS_NONE,
+                            say)
                     message.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE)
                     response = message.run()
                     message.hide()
@@ -243,10 +257,13 @@ class StyleChange:
             self.aboutdialog.destroy()
 
     def __about1_activate__(self,widget):
-        """Activate the help button with the about dialog, use generic if pygtk < 2.5.9"""
+        """Activate the help button with the about dialog,
+        use generic if pygtk < 2.5.9
+        """
         if gtk.pygtk_version < (2,5,90):
-            message = "fluxStyle version 1.0 Updae your pygtk version for more features. Version "
-            message += "2.6.0 or newer is reccomended"
+            message = """Update your pygtk version for more features.
+            Version 2.6.0 or newer is reccomended.
+            """
             errorMessage.infoMessage(message)
         else:
             windowname2="aboutdialog1"
