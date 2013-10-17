@@ -124,7 +124,6 @@ class StyleChange:
         return image.get_pixbuf()
 
     def __fill_view_menu__(self, widget):
-        v_menuNam = None
         if parseConfig.check4_config() == 2:
             message = """First run detected. A default config has been created
             for you. You should edit this config to control the location of
