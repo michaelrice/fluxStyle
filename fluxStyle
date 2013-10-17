@@ -17,7 +17,6 @@ TODO
 - fix any bugs that may still be there and unseen..
 - add tray icon support (this is started will be done soon)
 """
-import sys
 import os
 import gtk
 import gtk.glade
@@ -38,7 +37,6 @@ class StyleChange:
 
     def __init__(self):
         """The main fluxStyle window will show"""
-        global location
         windowname = "window1"
         self.wTree = gtk.glade.XML (GLADEFILE,windowname)
         self.treeview1 = self.wTree.get_widget("treeview1")
@@ -80,12 +78,11 @@ class StyleChange:
     def __fill_combolist__(self,widget,loc="default"):
         """Fill the combo list with styles test to see if there is a
         ~/.fluxbox/styles if there isnt then make it and move on."""
-        global location
-        location = expanduser(loc)
-        if location == "default":
-            location = expanduser("~/.fluxbox/styles")
+        self.location = expanduser(loc)
+        if self.location == "default":
+            self.location = expanduser("~/.fluxbox/styles")
             try:
-                dir = os.listdir(location)
+                dir = os.listdir(self.location)
                 dir.sort()
                 self.liststore.clear()
                 for styles in dir:
@@ -101,7 +98,7 @@ class StyleChange:
                 errorMessage.infoMessage(message)
         else:
             try:
-                dir = os.listdir(location)
+                dir = os.listdir(self.location)
                 dir.sort()
                 self.liststore.clear()
                 for styles in dir:
@@ -117,12 +114,11 @@ class StyleChange:
     # get the preview image for view
     def __get_preview__(self, stylename):
         """Get the preview image from: location + /styleName/preview.jpg"""
-        global location
-        location = expanduser(location)
+        self.location = expanduser(self.location)
         image = gtk.Image()
-        if os.path.isdir(location + "/" + stylename):
-            if isfile(location+"/"+stylename+"/preview.jpg"):
-                image.set_from_file(location+"/" +stylename+"/preview.jpg")
+        if isdir(self.location + "/" + stylename):
+            if isfile(self.location+"/"+stylename+"/preview.jpg"):
+                image.set_from_file(self.location+"/" +stylename+"/preview.jpg")
             else:
                 image.set_from_file(N_IMAGE)
         return image.get_pixbuf()
@@ -171,10 +167,9 @@ class StyleChange:
     # Set style
     def __apply_style_clicked__(self,widget):
         """Used to apply new styles"""
-        global location
         style = self.__get_selected_style__()
         if style:
-            findStyles.set_style(style,location)
+            findStyles.set_style(style,self.location)
 
     # Add style
     def __add_style_clicked__(self,widget):
@@ -206,7 +201,6 @@ class StyleChange:
     # remove style
     def __remove_style_clicked__(self,widget):
         """Remove selected style"""
-        global location
         style = self.__get_selected_style__()
         if style == False:
             m = "You must select a style to remove first"
@@ -222,9 +216,9 @@ class StyleChange:
             response = message.run()
             message.hide()
             if response == gtk.RESPONSE_OK:
-                if findStyles.remove_style(style,location) != False:
+                if findStyles.remove_style(style,self.location) != False:
                     message.destroy()
-                    self.__fill_combolist__(self,location)
+                    self.__fill_combolist__(self,self.location)
                 else:
                     say = """You do not have access to remove this style Please
                     contact your system admin for help removing this style.
