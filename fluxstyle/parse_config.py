@@ -72,14 +72,18 @@ def parse_file(config_file):
 
 if __name__ == "__main__":
     CFG = parse_file("~/.fluxStyle.rc")
+    if not CFG:
+        write_config()
+        raise SystemExit("You need to edit the file ~/fluxStyle.rc")
+
     ITEMS = []
     for key, value in CFG.iteritems():
         if key == "STYLES_DIRS":
             for file_location in value:
                 ITEMS.append( file_location.strip().split(",") )
-            for item in ITEMS:
-                if len(item) <= 1:
-                    print "default ", item[0]
-                else:
-                    print item[0], item[1]
+    for item in ITEMS:
+        if len(item) <= 1:
+            print "default ", item[0]
+        else:
+            print item[0], item[1]
 
