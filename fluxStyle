@@ -20,7 +20,7 @@ TODO
 import os
 import gtk
 import gtk.glade
-from fluxstyle import findStyles,parseConfig
+from fluxstyle import findStyles, parse_config
 from os.path import isfile,expanduser,isdir
 from fluxstyle import errorMessage
 
@@ -124,20 +124,20 @@ class StyleChange:
         return image.get_pixbuf()
 
     def __fill_view_menu__(self, widget):
-        if parseConfig.check4_config() == 2:
+        if parse_config.check4_config() == 2:
             message = """First run detected. A default config has been created
             for you. You should edit this config to control the location of
             styles shown in the preview window. The config file is located in
             ~/.fluxStyle.rc"""
             errorMessage.infoMessage(message)
 
-        elif parseConfig.check4_config() == 3:
+        elif parse_config.check4_config() == 3:
             message = """You do not have the config file ~/.fluxStyle.rc and
             you do not have write access to your $HOME directory.""" 
             errorMessage.infoMessage(message)
         
-        elif parseConfig.check4_config() == True:
-            ops = parseConfig.parse_file(expanduser("~/.fluxStyle.rc"))
+        elif parse_config.check4_config() == True:
+            ops = parse_config.parse_file(expanduser("~/.fluxStyle.rc"))
             l = []
             if ops != False:
                 count = 1

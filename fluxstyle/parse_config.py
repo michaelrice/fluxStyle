@@ -3,14 +3,16 @@ Copyright Nov 14, 2005
 Email: Michael Rice errr@errr-online.com
 Website: http://errr-online.com/
 '''
-import os,re
+import os
+import re
 from os.path import expanduser
 
 def check4_config():
+    """checks to see if the config file is located in the users home dir"""
     folder = expanduser("~/")
-    file = folder+".fluxStyle.rc"
+    config_file = folder+".fluxStyle.rc"
     w_ok = os.access(folder, os.W_OK)
-    f_ok = os.path.isfile(file)
+    f_ok = os.path.isfile(config_file)
     if f_ok:
         return True
     elif not f_ok and w_ok:
@@ -21,7 +23,8 @@ def check4_config():
         return 3
 
 def write_config():
-    conFile = """
+    """writes the basic config file in the users home dir"""
+    config_file_text = """
 # No need to add ~/.fluxbox/styles it is the default location and if it is listed it will
 # be ignored. Currently the only option supported right now is STYLES_DIRS
 # to choose the name that will display in the view menu use the following syntax
@@ -30,13 +33,13 @@ def write_config():
 # The following line is an example of what to use if you have styles installed in these places
 #STYLES_DIRS:Global,/usr/share/fluxbox/styles:Tenners,/usr/share/tenr-de-styles-pkg-1.0/styles/
 """
-    file = expanduser("~/.fluxStyle.rc")
-    file = open(file, "w")
-    file.write(conFile)
-    file.close()
+    config_file = expanduser("~/.fluxStyle.rc")
+    config_file = open(config_file, "w")
+    config_file.write(config_file_text)
+    config_file.close()
 #    return 2
 
-def parse_file(file):
+def parse_file(config_file):
     """read config file place results into a
     dict file location provided by caller.
     keys = options (USEICONS, ICONPATHS, etc)
@@ -48,13 +51,13 @@ def parse_file(file):
     #OPTION:commet
     OPTION:notComment #this is not valid comment
     """
-    file = expanduser(file)
+    config_file = expanduser(config_file)
     opts = {}
-    if os.path.isfile(file):
+    if os.path.isfile(config_file):
         match = re.compile(r"^[^#^\n]")
-        f = open(file)
-        info = f.readlines()
-        f.close()
+        file_handle = open(config_file)
+        info = file_handle.readlines()
+        file_handle.close()
         keys = []
         for lines in info:
             if match.findall(lines):
@@ -66,16 +69,17 @@ def parse_file(file):
         return opts
     else:
         return False
+
 if __name__ == "__main__":
-    #print parse_file("~/.fluxStyle.rc")
-    x = parse_file("~/.fluxStyle.rc")
-    l = []
-    for k,v in x.iteritems():
-      if k == "STYLES_DIRS":
-        for i in v:
-          l.append( i.strip().split(",") )
-        for i in l:
-          if len(i) <= 1:
-            print "default ", i[0]
-          else:
-            print i[0], i[1]
+    CFG = parse_file("~/.fluxStyle.rc")
+    ITEMS = []
+    for key, value in CFG.iteritems():
+        if key == "STYLES_DIRS":
+            for file_location in value:
+                ITEMS.append( file_location.strip().split(",") )
+            for item in ITEMS:
+                if len(item) <= 1:
+                    print "default ", item[0]
+                else:
+                    print item[0], item[1]
+
