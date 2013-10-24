@@ -20,7 +20,7 @@ TODO
 import os
 import gtk
 import gtk.glade
-from fluxstyle import findStyles, parse_config
+from fluxstyle import find_styles, parse_config
 from os.path import isfile,expanduser,isdir
 from fluxstyle import errorMessage
 
@@ -168,7 +168,7 @@ class StyleChange:
         """Used to apply new styles"""
         style = self.__get_selected_style__()
         if style:
-            findStyles.set_style(style,self.location)
+            find_styles.set_style(style,self.location)
 
     # Add style
     def __add_style_clicked__(self,widget):
@@ -191,7 +191,7 @@ class StyleChange:
 
         response = dialog.run()
         if response == gtk.RESPONSE_OK:
-            findStyles.install_style(dialog.get_filenames())
+            find_styles.install_style(dialog.get_filenames())
             self.__fill_combolist__(self)
             dialog.destroy()
         if response == gtk.RESPONSE_CANCEL:
@@ -215,7 +215,7 @@ class StyleChange:
             response = message.run()
             message.hide()
             if response == gtk.RESPONSE_OK:
-                if findStyles.remove_style(style,self.location) != False:
+                if find_styles.remove_style(style,self.location) != False:
                     message.destroy()
                     self.__fill_combolist__(self,self.location)
                 else:

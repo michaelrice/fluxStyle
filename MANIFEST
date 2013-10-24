@@ -9,5 +9,5 @@ docs/LICENSE
 docs/Changelog
 fluxstyle/__init__.py
 fluxstyle/errorMessage.py
-fluxstyle/findStyles.py
+fluxstyle/find_styles.py
 fluxstyle/parseConfig.py
