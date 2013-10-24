@@ -10,4 +10,4 @@ docs/Changelog
 fluxstyle/__init__.py
 fluxstyle/errorMessage.py
 fluxstyle/find_styles.py
-fluxstyle/parseConfig.py
+fluxstyle/parse_config.py
