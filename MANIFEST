@@ -8,6 +8,6 @@ docs/README
 docs/LICENSE
 docs/Changelog
 fluxstyle/__init__.py
-fluxstyle/errorMessage.py
+fluxstyle/error_message.py
 fluxstyle/find_styles.py
 fluxstyle/parse_config.py
