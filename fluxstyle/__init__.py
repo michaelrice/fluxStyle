@@ -6,5 +6,7 @@ window manager. Orignal version written by Michael Rice.
 Many special thanks to Zan a.k.a. Lauri Peltonen for GUI
 Improvements & Bug Stomping.
 """
-__AUTHORS__ = [ ("Michael Rice", "errr@errr-online.com"),("Lauri Peltonen",\
-    "zan@users.berlios.de")]
+__AUTHORS__ = [
+        ("Michael Rice", "errr@errr-online.com"),
+        ("Lauri Peltonen", "zan@users.berlios.de")
+        ]
