@@ -20,7 +20,7 @@ drwxr-xr-x  2 errr users  4096 May 22 12:55 pixmaps
 ***********************************************
 Hit 'apply' to change the style
 and 'add' to install a new style</property>
-  <property name="license" translatable="yes">GNU GPL version2</property>
+  <property name="license" translatable="yes">Apache-2.0</property>
   <property name="wrap_license">False</property>
   <property name="website">http://errr-online.com/</property>
   <property name="website_label" translatable="yes">errr-online</property>

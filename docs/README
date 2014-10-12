@@ -6,7 +6,7 @@ chmod +x setup.py
 It will place the main fluxStyle executable in /usr/bin 
 It will also make a dir in /usr/share/fluxstyle-1.0 for all the 
 files that fluxStyle uses. fluxStyle depends on libglade, and pygtk 2.4 or newer
-2.6+ is reccomended. 
+2.6+ is recommended.
 
 fluxStyle looks only in the users ~/.fluxbox/styles folder for
 styles by default, to change the locations fluxstyle looks edit the config file
@@ -23,7 +23,7 @@ download at: http://errr-online.com/fluxbox/
 If you have any problems using this app please feel free to let me know how I can make
 it eaiser to use. email: errr(at)errr-online(dot)com 
 or see me in IRC on chat.freenode.net in #fluxbox. Removal
-of this app is not exactly simple as root: 
+of this app is not exactly simple. as root:
 
   rm -rf /usr/share/fluxstyle-1.0
   rm -rf /usr/bin/fluxStyle
@@ -36,7 +36,7 @@ Common problems after install
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ###################################################################
 
-Sometimes people have said they have premission problems after installing
+Sometimes people have said they have permission problems after installing
 this is because of your umask. To solve the problem make sure all the
 file installed by fluxstyle are worl readable: chmod a+r 
 Next the fluxStyle binary in /usr/bin will need to be: chmod a+rx 

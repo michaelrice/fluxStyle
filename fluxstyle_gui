@@ -18,41 +18,48 @@ TODO
 - add tray icon support (this is started will be done soon)
 """
 import os
+from os.path import isfile, expanduser, isdir
+
 import gtk
 import gtk.glade
+
 from fluxstyle import find_styles, parse_config
-from os.path import isfile,expanduser,isdir
 from fluxstyle import error_message
 
 #GLADEFILE="/usr/share/fluxstyle/glade/main.glade"
 #N_IMAGE="/usr/share/fluxstyle/images/none.jpg"
-GLADEFILE="./glade/main.glade"
-N_IMAGE="./images/none.jpg"
+GLADEFILE = "./glade/main.glade"
+N_IMAGE = "./images/none.jpg"
+
 
 class StyleChange:
     """Class wrapper for changing styles in fluxbox"""
     location = ""
-    def main(self):
+
+    @staticmethod
+    def main():
         gtk.main()
 
     def __init__(self):
         """The main fluxStyle window will show"""
         windowname = "window1"
-        self.wTree = gtk.glade.XML (GLADEFILE,windowname)
+        self.wTree = gtk.glade.XML(GLADEFILE, windowname)
         self.treeview1 = self.wTree.get_widget("treeview1")
         self.view_menu = self.wTree.get_widget("view1_menu")
         self.__fill_view_menu__(self.view_menu)
 
-        handler = {"on_apply_style_clicked":self.__apply_style_clicked__,
-                "on_quit_clicked":(gtk.main_quit),
-                "on_add_style_clicked":self.__add_style_clicked__,
-                "on_remove_style_clicked":self.__remove_style_clicked__,
-                "on_quit1_activate":(gtk.main_quit),
-                "on_about1_activate":self.__about1_activate__,
-                "on_window1_destroy":(gtk.main_quit),
-                "on_default1_activate":self.__fill_combolist__}
+        handler = {
+            "on_apply_style_clicked": self.__apply_style_clicked__,
+            "on_quit_clicked": gtk.main_quit,
+            "on_add_style_clicked": self.__add_style_clicked__,
+            "on_remove_style_clicked": self.__remove_style_clicked__,
+            "on_quit1_activate": gtk.main_quit,
+            "on_about1_activate": self.__about1_activate__,
+            "on_window1_destroy": gtk.main_quit,
+            "on_default1_activate": self.__fill_combolist__
+        }
 
-        self.wTree.signal_autoconnect (handler)
+        self.wTree.signal_autoconnect(handler)
 
         #Preparing the treeview here
         self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str)
@@ -70,12 +77,12 @@ class StyleChange:
         self.treeview1.append_column(column2)
 
         #Fill it (Clear + fill)
-        self.__fill_combolist__(self.treeview1,loc="default")
+        self.__fill_combolist__(self.treeview1, loc="default")
         return
 
     # Call backs begin here
     # fill combo list
-    def __fill_combolist__(self,widget,loc="default"):
+    def __fill_combolist__(self, widget, loc="default"):
         """Fill the combo list with styles test to see if there is a
         ~/.fluxbox/styles if there isnt then make it and move on."""
         self.location = expanduser(loc)
@@ -86,11 +93,13 @@ class StyleChange:
                 dir.sort()
                 self.liststore.clear()
                 for styles in dir:
-                    self.liststore.append((self.__get_preview__(styles), 
-                        styles,))
-            except(OSError):
-                dir = expanduser("~/.fluxbox/styles")
-                os.makedirs(dir,mode=0700)
+                    self.liststore.append((
+                        self.__get_preview__(styles),
+                        styles,
+                    ))
+            except OSError:
+                dir_ = expanduser("~/.fluxbox/styles")
+                os.makedirs(dir_, mode=0700)
                 message = """You did not have a default style folder. One has 
                 been created for you. The list will remain empty until you
                 install a style which you can do by clicking the add button.
@@ -98,13 +107,13 @@ class StyleChange:
                 error_message.info_message(message)
         else:
             try:
-                dir = os.listdir(self.location)
-                dir.sort()
+                dir_ = os.listdir(self.location)
+                dir_.sort()
                 self.liststore.clear()
-                for styles in dir:
+                for styles in dir_:
                     self.liststore.append((self.__get_preview__(styles), 
                         styles,))
-            except(OSError):
+            except OSError:
                 m = """You have an invalid location in your ~/.fluxStyle.rc
                 file. It is possible that you have a syntax error. Please exit
                 fluxStlye and fix the error in this file and try again.
@@ -136,7 +145,7 @@ class StyleChange:
             you do not have write access to your $HOME directory.""" 
             error_message.info_message(message)
         
-        elif parse_config.check4_config() == True:
+        elif parse_config.check4_config():
             ops = parse_config.parse_file(expanduser("~/.fluxStyle.rc"))
             l = []
             if ops != False:

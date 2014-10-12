@@ -1,11 +1,21 @@
-'''Written by Michael Rice
-Copyright Nov 14, 2005
-Email: Michael Rice errr@errr-online.com
-Website: http://errr-online.com/
-'''
+# Copyright 2005-2014 Michael Rice <michael@michaelrice.org>
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
 import os
 import re
 from os.path import expanduser
+
 
 def check4_config():
     """checks to see if the config file is located in the users home dir"""
@@ -18,9 +28,10 @@ def check4_config():
     elif not f_ok and w_ok:
         write_config()
         return 2
-    #file isnt there and we dont have premission to make it.
+    #file isnt there and we dont have permission to make it.
     elif not w_ok and not f_ok:
         return 3
+
 
 def write_config():
     """writes the basic config file in the users home dir"""
@@ -39,6 +50,7 @@ def write_config():
     config_file.close()
 #    return 2
 
+
 def parse_file(config_file):
     """read config file place results into a
     dict file location provided by caller.
@@ -48,7 +60,7 @@ def parse_file(config_file):
     OPTION:values:moreValuse:evenMore
     do not end with ":"  Comments are "#" as
     the first char.
-    #OPTION:commet
+    #OPTION:comment
     OPTION:notComment #this is not valid comment
     """
     config_file = expanduser(config_file)
@@ -61,7 +73,7 @@ def parse_file(config_file):
         keys = []
         for lines in info:
             if match.findall(lines):
-                keys.append( lines.strip().split(":") )
+                keys.append(lines.strip().split(":"))
         if len(keys) == 0:
             return False
         for i in range(len(keys)):
@@ -80,7 +92,7 @@ if __name__ == "__main__":
     for key, value in CFG.iteritems():
         if key == "STYLES_DIRS":
             for file_location in value:
-                ITEMS.append( file_location.strip().split(",") )
+                ITEMS.append(file_location.strip().split(","))
     for item in ITEMS:
         if len(item) <= 1:
             print "default ", item[0]

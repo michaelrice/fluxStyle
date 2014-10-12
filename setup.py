@@ -1,17 +1,17 @@
 #!/usr/bin/env python
-"""Fluxstyle is a graphical style manager built in python
-using pygtk and glade. Fluxstyle is for the fluxbox window
-manager. Orignal version written by Michael Rice. Many special
-thanks to Zan a.k.a. Lauri Peltonen for GUI Improvements & Bug Stomping.
+#
+# Fluxstyle is a graphical style manager built in python
+# using pygtk and glade. Fluxstyle is for the fluxbox window
+# manager. Orignal version written by Michael Rice. Many special
+# thanks to Zan a.k.a. Lauri Peltonen for GUI Improvements & Bug Stomping.
 
-Released under MIT
-"""
 from distutils.core import setup
 import distutils.fancy_getopt
 import sys
 
 DATADIR="/usr/share"
 BINDIR="/usr/bin"
+
 
 def chk_install():
     """try to pull in gtk crap to make sure deps are on box before install"""
@@ -32,6 +32,7 @@ def chk_install():
         print "PyGtk 2.3.90 or later required for this program"
         print "It is reccomended that you get pygtk 2.6 or newer."
         raise SystemExit
+
 
 def main():
     chk_install()
