@@ -56,7 +56,7 @@ def main():
                 ]
             ),
             (DATADIR + '/fluxstyle/glade', ['images/main.glade']),
-            (BINDIR, ['fluxStyle']),
+            (BINDIR, ['fluxstyle_gui']),
             (DATADIR + '/fluxstyle/docs',
             ['docs/README', 'docs/LICENSE', 'docs/Changelog'])
         ]
