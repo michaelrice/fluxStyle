@@ -12,6 +12,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from __future__ import print_function
 import os
 import re
 from os.path import expanduser
@@ -95,7 +96,7 @@ if __name__ == "__main__":
                 ITEMS.append(file_location.strip().split(","))
     for item in ITEMS:
         if len(item) <= 1:
-            print "default ", item[0]
+            print("default {0}".format(item[0]))
         else:
-            print item[0], item[1]
+            print("{0} {1}".format(item[0], item[1]))
 
