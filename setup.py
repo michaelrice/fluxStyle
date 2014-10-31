@@ -32,7 +32,7 @@ def chk_install():
         raise SystemExit
     if gtk.pygtk_version < (2, 3, 90):
         print("PyGtk 2.3.90 or later required for this program")
-        print("It is reccomended that you get pygtk 2.6 or newer.")
+        print("It is recommended that you get pygtk 2.6 or newer.")
         raise SystemExit
 
 
@@ -58,7 +58,7 @@ def main():
             (DATADIR + '/fluxstyle/glade', ['images/main.glade']),
             (BINDIR, ['fluxstyle_gui']),
             (DATADIR + '/fluxstyle/docs',
-            ['docs/README', 'docs/LICENSE', 'docs/Changelog'])
+             ['docs/README', 'docs/LICENSE', 'docs/Changelog'])
         ]
     )
 
